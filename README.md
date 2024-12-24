@@ -102,6 +102,3 @@ npm install pug sequelize pg pg-hstore
 **Usage Overview**
 - Pug will handle the server-rendered views for pages like forms, dashboards, etc.  
 - Hstore will manage key-value pair data for assets or other entities that require dynamic or nested properties.
-
-**PROJECT EXPLANATION**
-LINK--(https://drive.google.com/file/d/1Pad9DWV6Qin2nrpoRezkhOEgfckHomIY/view?usp=drive_link)
