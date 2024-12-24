@@ -1,0 +1,23 @@
+extends layout
+
+block content
+        .container
+            h1 Asset History
+            table.table.table-striped.table-bordered
+                thead
+                    tr
+                        th id
+                        th Type
+                        th Make
+                        th Model
+                tbody
+                  if logs && logs.length
+                    each asset in assets
+                        tr  
+                            td= asset.id
+                            td= asset.type
+                            td= asset.make
+                            td= asset.model
+                  else
+                    tr
+                      td(colspan="4") No records found

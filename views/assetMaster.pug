@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  .container.mt-5
+    h1.text-center Asset Master
+
+    //- Asset Form
+    form#assetForm(action='/submit', method='POST')
+      .form-group
+        label(for="type") Type
+        input#type.form-control(name="type" type="text" required)
+      .form-group
+        label(for="make") Make
+        input#make.form-control(name="make" type="text" required)
+      .form-group
+        label(for="model") Model
+        input#model.form-control(name="model" type="text" required)
+      button.btn.btn-primary(type="submit") Add Asset
+
+    //- Data Table
+    table.table.table-striped.mt-4
+      thead
+        tr
+          th Type
+          th Make
+          th Model
+          th Actions
+      tbody
+        if assets && assets.length > 0
+          each asset in assets
+            tr
+              td= asset.type
+              td= asset.make
+              td= asset.model
+              td
+                button.delete-btn(data-id=asset.id) Delete
+        else
+          tr
+            td(colspan="4") No assets available.

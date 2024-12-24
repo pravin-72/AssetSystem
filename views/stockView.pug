@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  .container.mt-5
+    h1.text-center.mb-4 View Asset Counts
+
+    .card
+      .card-header
+        h4 Asset Type Counts
+      .card-body
+        table.table.table-bordered.table-striped
+          thead
+            tr
+              th Type
+              th Count
+          tbody
+            if counts && counts.length > 0
+              each asset in counts
+                tr
+                  td= asset.type
+                  td= asset.count
+            else
+              tr
+                td(colspan="2") No data available
+
+    .card.mt-4
+      .card-header
+        h4 All Asset Data
+      .card-body
+        table.table.table-bordered.table-striped
+          thead
+            tr
+              th Type
+              th Make
+              th Model
+          tbody
+            if assets && assets.length > 0
+              each asset in assets
+                tr
+                  td= asset.type
+                  td= asset.make
+                  td= asset.model
+            else
+              tr
+                td(colspan="3") No data available

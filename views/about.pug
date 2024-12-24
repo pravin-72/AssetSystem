@@ -1,0 +1,28 @@
+extends layout 
+
+block content
+  .container.mt-5
+    .row
+      .col-md-12.text-center
+        h1 Asset Management Dashboard
+        p.lead Manage assets effectively with our system.
+    style.
+      .icon-color {
+        color: #855454;
+      }
+    .row.mt-4
+      - const features = ['Employee Master', 'Asset Master', 'Asset Category Master', 'Stock View', 'Issue Asset', 'Return Asset', 'Scrap Asset', 'Asset History'];
+      - const icons = ['fa-user-tie fa-3x icon-color', 'fa-boxes fa-3x icon-color', 'fa-tags fa-3x icon-color', 'fa-warehouse fa-3x icon-color', 'fa-hand-holding fa-3x icon-color', 'fa-undo fa-3x icon-color', 'fa-trash fa-3x icon-color', 'fa-history fa-3x icon-color'];
+      each feature, index in features
+        .col-md-3.mb-4
+          .card.shadow
+            .card-body.text-center
+              i.fa(display-4.text-primary class=icons[index])
+              h5.card-title.mt-3= feature
+              p.card-text Brief details about #{feature}
+              // Create dynamic links for each feature's explore button
+              a.btn.btn-primary(href=`/${feature.replace(/\s+/g, '').toLowerCase()}`) Explore
+
+  footer.bg-dark.text-white.py-3
+    .container.text-center
+      p.mb-0 Asset Management System © 2024. All Rights Reserved.

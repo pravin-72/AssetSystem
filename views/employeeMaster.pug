@@ -1,0 +1,56 @@
+extends layout
+
+block content
+
+  .container
+    h1.text-center Employee Management
+
+    form#employeeForm(action="/employees" method="POST")
+      .mb-3
+        label(for="name") Name:
+        input#name.form-control(type="text" name="name" placeholder="Enter Name" required)
+      .mb-3
+        label(for="email") Email:
+        input#email.form-control(type="email" name="email" placeholder="Enter Email" required)
+      .mb-3
+        label(for="status") Status:
+        select#status.form-control(name="status" required)
+          option(value="active") Active
+          option(value="inactive") Inactive
+          option(value="on_leave") On Leave
+      button.btn.btn-primary(type="submit") Add Employee
+
+    hr
+
+    form
+      .mb-3
+        input#search.form-control(type="text", placeholder="Search by Name or Email", onkeyup="searchEmployees()")
+        small.text-muted Use keywords to search employees
+
+
+    // Employee table
+    table#employeeTable.table.table-striped
+      thead
+        tr
+          th ID
+          th Name
+          th Email
+          th Status
+          th Actions
+      tbody
+        if employees && employees.length > 0
+          each employee in employees
+            tr(data-id=employee.id)
+              td= employee.id
+              td= employee.name
+              td= employee.email
+              td= employee.status
+              td
+                button.btn.btn-warning.btn-sm.on-edit(data-id=employee.id) Edit
+                button.btn.btn-danger.btn-sm.on-delete(data-id=employee.id) Delete
+        else
+          tr
+            td(colspan="5") No employees found.
+
+      script(src="/js/employee.js")  // Include JavaScript for handling client-side logic
+  

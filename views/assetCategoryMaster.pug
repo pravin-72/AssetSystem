@@ -1,0 +1,122 @@
+extends layout
+
+block content
+  .container
+    h1 Asset Category Master
+
+    // Add Category Form
+    form(action='/categories', method='POST')
+      .form-group
+        label(for='categoryName') Category Name
+        input(type='text', class='form-control', id='categoryName', name='categoryName', required=true)
+
+      .form-group
+        label(for='categoryType') Category Type
+        select(class='form-control', id='categoryType', name='categoryType', required=true)
+          option(value='Laptop') Laptop
+          option(value='Mobile Phone') Mobile Phone
+          option(value='Tablet') Tablet
+          option(value='Desktop') Desktop
+          option(value='Accessory') Accessory
+
+      .form-group
+        label(for='categoryDescription') Description
+        textarea(class='form-control', id='categoryDescription', name='categoryDescription', rows='3', required=true)
+
+      button(type='submit', class='btn btn-primary') Add Category
+
+    h2 Categories List
+
+    if categories && categories.length > 0
+      table(class='table table-bordered')
+        thead
+          tr
+            th ID
+            th Category Name
+            th Category Type
+            th Description
+            th Actions
+        tbody
+          each category in categories
+            tr
+              td= category.id
+              td= category.name
+              td= category.type
+              td= category.description
+              td
+                button(class='btn btn-warning edit-btn ml-2', data-id=category.id, data-name=category.name, data-type=category.type, data-description=category.description) Edit
+                button(class='btn btn-danger delete-btn ml-2', data-id=category.id) Delete
+    else
+      p No categories available.
+
+    // Modal for Editing Category
+    div(class='modal fade', id='editModal', tabindex='-1', aria-labelledby='editModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h5.modal-title(id='editModalLabel') Edit Category
+            button(type='button', class='close', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            form(id='editForm', action='/categories/update', method='POST')
+              input(type='hidden', id='editId', name='id')
+              .form-group
+                label(for='editCategoryName') Category Name
+                input(type='text', class='form-control', id='editCategoryName', name='categoryName', required=true)
+
+              .form-group
+                label(for='editCategoryType') Category Type
+                select(class='form-control', id='editCategoryType', name='categoryType', required=true)
+                  option(value='Laptop') Laptop
+                  option(value='Mobile Phone') Mobile Phone
+                  option(value='Tablet') Tablet
+                  option(value='Desktop') Desktop
+                  option(value='Accessory') Accessory
+
+              .form-group
+                label(for='editCategoryDescription') Description
+                textarea(class='form-control', id='editCategoryDescription', name='categoryDescription', rows='3', required=true)
+
+              button(type='submit', class='btn btn-success') Update Category
+          .modal-footer
+            button(type='button', class='btn btn-secondary', data-dismiss='modal', aria-label="Close") Close
+
+  script(src='https://code.jquery.com/jquery-3.6.0.min.js')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js')
+
+  script.
+      // JavaScript to handle Edit and Delete actions
+      $(document).ready(function() {
+        // Edit button click handler
+        $('.edit-btn').click(function() {
+          const categoryId = $(this).data('id');
+          const categoryName = $(this).data('name');
+          const categoryType = $(this).data('type');
+          const categoryDescription = $(this).data('description');
+          
+          $('#editId').val(categoryId);
+          $('#editCategoryName').val(categoryName);
+          $('#editCategoryType').val(categoryType);
+          $('#editCategoryDescription').val(categoryDescription);
+          
+          $('#editModal').modal('show');
+        });
+
+        // Delete button click handler
+        $('.delete-btn').click(function() {
+          const categoryId = $(this).data('id');
+          if (confirm('Are you sure you want to delete this category?')) {
+            $.ajax({
+              url: '/categories/' + categoryId,
+              method: 'DELETE',
+              success: function(response) {
+                alert('Category deleted successfully!');
+                location.reload();
+              },
+              error: function(error) {
+                alert('Error deleting category.');
+              }
+            });
+          }
+        });
+      });

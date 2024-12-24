@@ -1,0 +1,39 @@
+extends layout 
+
+block content
+    .container.mt-5
+      h1 Return Asset
+      form(method="POST" action="/assets/return")
+        .form-group
+          label(for="employeeName") Select Employee
+          select.form-control(name="employeeName" id="employeeName")
+            option(value="Johan Doe") Johan Doe
+            option(value="Varsha") Varsha
+            option(value="Varsha - 1") Varsha - 1
+            option(value=" Varsha - 2") Varsha - 2
+            option(value="Varsha -3") Varsha -3
+        .form-group
+          label(for="assetId") Asset ID
+          input.form-control(type="text" name="assetId" id="assetId" required)
+        .form-group
+          label(for="comments") Comments
+          textarea.form-control(name="comments" id="comments" rows="3")
+        button.btn.btn-primary(type="submit") Submit
+      hr
+      h2 Issued Assets
+      table.table.table-striped
+        thead
+          tr
+            th Employee Name
+            th Asset ID
+            th Comments
+        tbody(id="assetTable")
+          if logs && logs.length
+            each log in logs
+              tr
+                td= log.employee_name
+                td= log.asset_id
+                td= log.comments
+          else
+            tr
+              td(colspan="3") No records found
